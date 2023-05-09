@@ -135,7 +135,7 @@ public class CandidatureServices {
     /* add */
     public boolean addCandidature(Candidature c) {
         
-        String url = Statics.BASE_APP_URL + "addCandidatureJSON/" + c.getIdOffre().getId() + "/" + c.getId()
+        String url = Statics.BASE_APP_URL + "addCandidatureJSON/" + c.getIdOffre().getId() + "/" + c.getIdCandidat().getId()
                 + "?cv="
                 + c.getCv() + "&lettre=" + c.getLettre();
         

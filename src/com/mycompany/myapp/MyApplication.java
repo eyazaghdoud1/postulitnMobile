@@ -22,7 +22,7 @@ import com.mycompany.myapp.gui.HomeForm;
 public class MyApplication {
 
     private Form current;
-    private Resources theme;
+    public static Resources theme;
 
     public void init(Object context) {
         // use two network threads instead of one
