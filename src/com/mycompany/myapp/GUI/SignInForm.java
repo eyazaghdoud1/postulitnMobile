@@ -19,6 +19,7 @@ import com.mycompany.myapp.services.ServiceUtilisateur;
  * @author ezine
  */
 public class SignInForm extends Form{
+    public Utilisateur u;
       public SignInForm(Resources res) {
           setTitle("Sign In");
           setLayout(BoxLayout.y());
@@ -29,13 +30,14 @@ public class SignInForm extends Form{
         mdp.setSingleLineTextArea(false);
         Button signIn = new Button("Sign In");
         Button signUp = new Button("Sign Up");
-          Utilisateur u = new Utilisateur();
-          u.setEmail(email.getText());
-          u.setMdp(mdp.getText());
+          
+          
         signIn.addActionListener((evt) -> {
+            u = new Utilisateur();
+            u.setEmail(email.getText());
+            u.setMdp(mdp.getText());
              ServiceUtilisateur.getInstance().signin(u);
-           
-              Dialog.show("Success","You are signed in","OK",null);
+             // Dialog.show("Success","You are signed in","OK",null);
              
         });
          signUp.addActionListener(e -> new SignUpForm(res).show());

@@ -11,6 +11,8 @@ import com.codename1.io.JSONParser;
 
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
+import com.codename1.l10n.ParseException;
+import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.myapp.GUI.SessionManager;
@@ -40,6 +42,8 @@ public class ServiceUtilisateur {
     public static boolean resultOk = true;
     String json;
     private ConnectionRequest req;
+    public ArrayList<Utilisateur> utilisateurs;
+    Utilisateur u;
     
     public static ServiceUtilisateur getInstance(){
         if (instance == null)
@@ -71,22 +75,22 @@ public class ServiceUtilisateur {
             
             try {
             
-            if(json.equals("failed")) {
-                Dialog.show("Echec d'authentification","Username ou mot de passe éronné","OK",null);
+                System.out.println(json);
+            if(json.equals("null")) {
+                Dialog.show("Echec d'authentification","Username ou mot de passe eronné","OK",null);
             }
             else {
                 System.out.println("data =="+json);
-                
+                 Statics.USER=parseUser(new String(req.getResponseData()));
+               //  System.out.println(Statics.USER.getEmail());
                 Map<String,Object> user = j.parseJSON(new CharArrayReader(json.toCharArray()));
                 
-                
-             
                 //Session 
-                 float id = Float.parseFloat(user.get("id").toString());
+/*                 float id = Float.parseFloat(user.get("id").toString());
                 SessionManager.setId((int)id);
                 
                 SessionManager.setMdp(user.get("mdp").toString());
-                SessionManager.setEmail(user.get("email").toString());
+                SessionManager.setEmail(user.get("email").toString());*/
                 Dialog.show("Success","You are signed in","OK",null);
                 
             }}catch(Exception ex) {
@@ -102,24 +106,34 @@ public class ServiceUtilisateur {
     
         //Signup
    
-    public void signup(Utilisateur u, String datenaissance ) {
+    public void signup(Utilisateur u, String datenaissance, String role ) {
         
      
-        String url=Statics.BASE_URL+"/addUtilisateurJSON?nom="+u.getNom()+"&prenom="+u.getPrenom()
-                +"&email="+u.getEmail()+"&tel="+u.getEmail()+"&adresse="+u.getAdresse()+"&mdp="+u.getMdp()
-                +"&datenaissance="+ datenaissance +"&role="+u.getRole().getDescription();
+        String url=Statics.BASE_URL +"/addUtilisateurJSON?nom="+u.getNom()+"&prenom="+u.getPrenom()
+                +"&email="+u.getEmail()+"&tel="+u.getEmail()+"&adresse="+u.getAdresse()+"&mdp="+u.getMdp()  +"&datenaissance="+ datenaissance 
+                +"&role="+role;
+       
         
         req=new ConnectionRequest();
         req.setUrl(url);
+        req.setPost(false);
+         req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOk = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
        
         //Controle de saisie
-        if(u.getNom().equals(" ") && u.getPrenom().equals(" ") && u.getEmail().equals(" ") && u.getMdp().equals(" ") && u.getTel().equals(" ")) {
+        /*  if(u.getNom().equals(" ") && u.getPrenom().equals(" ") && u.getEmail().equals(" ") && u.getMdp().equals(" ") && u.getTel().equals(" ")) {
              
             Dialog.show("Erreur","Veuillez remplir les champs","OK",null);
             
-        }
+        }*/
  
-        req.addResponseListener((e)-> {
+        /* req.addResponseListener((e)-> {
             byte[]data = (byte[]) e.getMetaData();
             String responseData = new String(data);
             
@@ -127,8 +141,118 @@ public class ServiceUtilisateur {
         }
         );
      
+        NetworkManager.getInstance().addToQueueAndWait(req);*/
+        
+    }
+
+    
+    
+    
+    
+   /* public ArrayList<Utilisateur> parseUser(String jsonText) {
+        
+        try {
+            
+            JSONParser j = new JSONParser();
+            Map<String, Object> usersListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+             List<Map<String, Object>> list = (List<Map<String, Object>>) usersListJson.get("root");
+
+            for (Map<String, Object> obj : list) {
+                Utilisateur u = new Utilisateur();
+                float id = Float.parseFloat(obj.get("id").toString());
+                u.setId((int) id);
+                u.setNom(obj.get("nom").toString());
+                u.setPrenom(obj.get("prenom").toString());
+                u.setEmail(obj.get("email").toString());
+                u.setTel(obj.get("tel").toString());
+                u.setAdresse(obj.get("adresse").toString());
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+              try {
+                    u.setDateNaissance(formatter.parse(obj.get("datenaissance").toString()));
+                } catch (ParseException ex) {
+
+                }
+                u.setMdp(obj.get("mdp").toString());
+                
+                Map<String, Object> role = (Map<String, Object>) obj.get("id");
+                Role r = new Role();
+                r.setId((int) Float.parseFloat(obj.get("id").toString()));
+                r.setDescription(json);
+               
+                
+                u.setRole(r);
+
+                
+                utilisateurs.add(u);
+
+            }
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return utilisateurs;
+    } 
+    */
+    
+    public Utilisateur parseUser(String jsonText) {
+        
+        Utilisateur u = null;
+        try {
+            
+            JSONParser j = new JSONParser();
+            Map<String, Object> userJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+            u = new Utilisateur();
+            float id = Float.parseFloat(userJson.get("id").toString());
+            u.setId((int) id);
+            u.setNom(userJson.get("nom").toString());
+            u.setPrenom(userJson.get("prenom").toString());
+            u.setEmail(userJson.get("email").toString());
+            u.setTel(userJson.get("tel").toString());
+            u.setAdresse(userJson.get("adresse").toString());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                u.setDateNaissance(formatter.parse(userJson.get("datenaissance").toString()));
+            } catch (ParseException ex) {
+
+            }
+            u.setMdp(userJson.get("mdp").toString());
+
+            Map<String, Object> role = (Map<String, Object>) userJson.get("idrole");
+            Role r = new Role();
+            r.setId((int) Float.parseFloat(role.get("idrole").toString()));
+            r.setDescription(role.get("description").toString());
+
+            u.setRole(r);
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return u;
+    }
+
+    
+        public Utilisateur showUser (int id){
+        
+        String url = Statics.BASE_URL+"/UserJSON/"+id;
+        req.setUrl(url);
+        req.setPost(false);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+               
+                
+                u=parseUser(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
         NetworkManager.getInstance().addToQueueAndWait(req);
         
+        return u;
+        
+            
     }
     /*
      public ArrayList<Utilisateur> getList() {
@@ -235,10 +359,11 @@ public class ServiceUtilisateur {
     }*/
     
     //delete
-    public boolean deleteUtilisateur(Utilisateur u) {
-        String url = Statics.BASE_URL +"deleteUserJSON?id="+u.getId();
+    public boolean deleteUtilisateur(int id) {
+        String url = Statics.BASE_URL +"/deleteUserJSON/"+id;
         
         req.setUrl(url);
+        req.setPost(false);
         
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -253,10 +378,10 @@ public class ServiceUtilisateur {
     }
     
    //Update
-    public boolean modifierUtilisateur(Utilisateur user, String date) {
-        String url = Statics.BASE_URL +"/updateUserJSON?id="+user.getId()+"nom="+user.getNom()+"&prenom="+user.getPrenom()
+    public boolean modifierUtilisateur(Utilisateur user, String datenaissance, String role) {
+        String url = Statics.BASE_URL +"/updateUserJSON/"+ user.getId()+"?nom="+user.getNom()+"&prenom="+user.getPrenom()
                 +"&email="+user.getEmail()+"&tel="+user.getTel()+"&adresse="+user.getAdresse()+"&mdp="+user.getMdp()
-                +"&dateNaissance"+user.getDateNaissance()+"&role="+user.getRole().getDescription();
+                +"&datenaissance="+datenaissance+"&role="+role;
         req.setUrl(url);
         
         req.addResponseListener(new ActionListener<NetworkEvent>() {

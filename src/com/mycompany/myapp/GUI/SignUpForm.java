@@ -29,12 +29,14 @@ import com.mycompany.myapp.services.ServiceUtilisateur;
  * @author ezine
  */
 public class SignUpForm extends Form {
+     public String selectedRole;
+     public Utilisateur u ;
     public SignUpForm (Resources res){
         
         setTitle("Sign Up!");
         setLayout(BoxLayout.y());
         Role r = new Role();
-        TextField nom= new TextField("", "Nom", 20, TextField.ANY);
+        TextField nom= new TextField("","Nom");
         TextField prenom= new TextField("", "Prénom", 20, TextField.ANY);
         TextField email = new TextField("", "E-Mail", 20, TextField.EMAILADDR);
         TextField tel = new TextField("", "Tel", 20, TextField.ANY);
@@ -57,8 +59,22 @@ public class SignUpForm extends Form {
         
        
         //Label alreadHaveAnAccount = new Label("Already have an account?");
+       
+       
+        combo.addActionListener((evt) -> {
+            selectedRole = combo.getSelectedItem();
+       //     System.out.println(selectedRole);
+            r.setDescription(selectedRole);
+        //    System.out.println(r.getDescription());
+            
+           
+           
+        });
+       
         
-        Utilisateur u = new Utilisateur();
+    //    signUp.requestFocus();
+        signUp.addActionListener((e) -> {
+              u = new Utilisateur();
         u.setSalt("1234");
         u.setCode("0000");
         u.setNom(nom.getText());
@@ -67,19 +83,14 @@ public class SignUpForm extends Form {
         u.setTel(tel.getText());
         u.setAdresse(adresse.getText());
         u.setMdp(mdp.getText());
-        combo.addActionListener((evt) -> {
-            String selectedRole = combo.getSelectedItem();
-            r.setDescription(selectedRole);
-            u.setRole(r);
-        });
-       
-        
-    //    signUp.requestFocus();
-        signUp.addActionListener((e) -> {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        u.setRole(r);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         String formattedDate = dateFormat.format(datenaissance.getDate());
-        ServiceUtilisateur.getInstance().signup(u, formattedDate);
-        Dialog.show("Success","account is saved","OK",null);
+//            System.out.println( formattedDate);
+//            System.out.println(nom.getText());
+//            System.out.println(u.getNom());
+        ServiceUtilisateur.getInstance().signup(u, formattedDate, selectedRole);
+       Dialog.show("Success","account is saved","OK",null);
             //new SignInForm(res).show();
         });
         

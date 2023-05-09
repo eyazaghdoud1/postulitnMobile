@@ -6,6 +6,7 @@
 package com.mycompany.myapp.entities;
 
 import com.codename1.l10n.DateFormat;
+import java.util.Date;
 
 
 
@@ -16,14 +17,14 @@ import com.codename1.l10n.DateFormat;
 public class Utilisateur {
      private int id;
     private String nom, prenom, email, tel, adresse, mdp;
-    private DateFormat dateNaissance;
+    private Date dateNaissance;
     private Role role;
     private String salt, code;
 
     public Utilisateur() {
     }
 
-    public Utilisateur(int id, String nom, String prenom, String email, String tel, String adresse, String mdp, DateFormat dateNaissance, Role role, String salt, String code) {
+    public Utilisateur(int id, String nom, String prenom, String email, String tel, String adresse, String mdp, Date dateNaissance, Role role, String salt, String code) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -37,7 +38,7 @@ public class Utilisateur {
         this.code = code;
     }
 
-    public Utilisateur(int id, String nom, String prenom, String email, String tel, String adresse, String mdp,  DateFormat dateNaissance, Role role) {
+    public Utilisateur(int id, String nom, String prenom, String email, String tel, String adresse, String mdp,  Date dateNaissance, Role role) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -105,11 +106,11 @@ public class Utilisateur {
         this.mdp = mdp;
     }
 
-    public  DateFormat getDateNaissance() {
+    public  Date getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance( DateFormat dateNaissance) {
+    public void setDateNaissance( Date dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 

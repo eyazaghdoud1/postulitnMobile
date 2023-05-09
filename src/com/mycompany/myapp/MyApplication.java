@@ -9,6 +9,7 @@ import com.codename1.ui.Label;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
+import com.codename1.ui.Button;
 import com.codename1.ui.Toolbar;
 
 import com.codename1.ui.layouts.BoxLayout;
@@ -16,6 +17,7 @@ import com.mycompany.myapp.GUI.ModifProfileForm;
 import com.mycompany.myapp.GUI.ProfileForm;
 import com.mycompany.myapp.GUI.SignInForm;
 import com.mycompany.myapp.GUI.SignUpForm;
+import com.mycompany.myapp.entities.Utilisateur;
 
 
 /**
@@ -55,7 +57,8 @@ public class MyApplication {
             current.show();
             return;
         }
-       new SignUpForm(theme).show();
+       new SignInForm(theme).show();
+       // new ModifProfileForm(theme, 70).show();
     }
 
     public void stop() {

@@ -24,7 +24,10 @@ import com.mycompany.myapp.services.ServiceUtilisateur;
  * @author ezine
  */
 public class ModifProfileForm extends Form{
-    public ModifProfileForm(Resources res){
+    public String selectedRole;
+    public Utilisateur u ;
+    public ModifProfileForm(Resources res, int id){
+        
         setTitle("Modifier profil!");
         setLayout(BoxLayout.y());
         Role r = new Role();
@@ -46,13 +49,22 @@ public class ModifProfileForm extends Form{
         mdp.setSingleLineTextArea(false);
         Button modif = new Button("Modifier");
         
-      modif.addActionListener(e -> new ProfileForm(res).show());
-        modif.setUIID("Link");
-        
        
         //Label alreadHaveAnAccount = new Label("Already have an account?");
         
-        Utilisateur u = new Utilisateur();
+        
+        
+         combo.addActionListener((evt) -> {
+            selectedRole = combo.getSelectedItem();
+//            System.out.println(selectedRole);
+            r.setDescription(selectedRole);
+//            System.out.println(r.getDescription());
+           });
+        
+    //    signUp.requestFocus();
+        modif.addActionListener((e) -> {
+        u = new Utilisateur();
+        u.setId(id);
         u.setSalt("1234");
         u.setCode("0000");
         u.setNom(nom.getText());
@@ -61,18 +73,10 @@ public class ModifProfileForm extends Form{
         u.setTel(tel.getText());
         u.setAdresse(adresse.getText());
         u.setMdp(mdp.getText());
-        combo.addActionListener((evt) -> {
-            String selectedRole = combo.getSelectedItem();
-            r.setDescription(selectedRole);
-            u.setRole(r);
-        });
-       
-        
-    //    signUp.requestFocus();
-        modif.addActionListener((e) -> {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        u.setRole(r);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         String formattedDate = dateFormat.format(datenaissance.getDate());
-        ServiceUtilisateur.getInstance().modifierUtilisateur(u, formattedDate);
+        ServiceUtilisateur.getInstance().modifierUtilisateur(u, formattedDate, selectedRole);
         Dialog.show("Success","account is saved","OK",null);
             //new SignInForm(res).show();
         });
