@@ -9,6 +9,7 @@ import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BoxLayout;
@@ -24,8 +25,8 @@ import java.text.SimpleDateFormat;
  * @author Users
  */
 public class UpdateProjet extends Form {
-
-    public UpdateProjet(ProjetFreelance p, Resources res) {
+ Form current;
+    public UpdateProjet(ProjetFreelance p, Resources res, Form previous) {
 
         setTitle("Update un Projet!");
         setLayout(BoxLayout.y());
@@ -88,5 +89,10 @@ public class UpdateProjet extends Form {
         });
 
         addAll(nom, theme, duree, description, dateDebut, dateFin, combo, update);
+   
+         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> previous.showBack());
+        show();
     }
+    
+
 }

@@ -35,8 +35,9 @@ import java.util.Date;
  * @author Aziz Ben Guirat
  */
 public class ListeProjetCandidat extends Form {
+    Form current;
         public ListeProjetCandidat(Resources res) {
-        super("Mes Projets", BoxLayout.y());
+        super("Projets Freelance", BoxLayout.y());
 
         // Create button group menu at the top
         ButtonGroup barGroup = new ButtonGroup();
@@ -58,7 +59,7 @@ public class ListeProjetCandidat extends Form {
         });
         ajouterProjet.addActionListener((e) -> {
 
-            new AjoutProjetForm(res).show();
+            new AjoutProjetForm(res, current).show();
 
         });
 
@@ -127,23 +128,9 @@ public class ListeProjetCandidat extends Form {
              //   new DetailsProjets(p, res).show();
 
             });
-            Button lmodifier = new Button(" ");
-            lmodifier.setUIID("NewsTopLine");
-            Style modifierStyle = new Style(ldetail.getUnselectedStyle());
-            modifierStyle.setFgColor(0xf7ad02);
-            FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
-            lmodifier.setIcon(mFontImage);
-            lmodifier.setTextPosition(LEFT);
-
-            lmodifier.addPointerPressedListener(l -> {
-
-                new UpdateProjet(p, res).show();
-
-            });
-            
-            
+                       
           
-            Button Cand = new Button("Postuler");
+            //  Button Cand = new Button("Postuler");
            
             
             
@@ -151,7 +138,7 @@ public class ListeProjetCandidat extends Form {
             
             Container actionsContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
       
-            actionsContainer.add(Cand);
+            //  actionsContainer.add(Cand);
             actionsContainer.getAllStyles().setMarginBottom(10);
             projetContainer.add(BorderLayout.SOUTH, actionsContainer);
             projetContainer.getAllStyles().setBorder(Border.createLineBorder(1, 0x555555));

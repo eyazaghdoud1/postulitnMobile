@@ -48,9 +48,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ListeProjets extends Form {
+    Form current;
 
     public ListeProjets(Resources res) {
         super("Mes Projets", BoxLayout.y());
+        current = this;
 
         // Create button group menu at the top
         ButtonGroup barGroup = new ButtonGroup();
@@ -72,7 +74,7 @@ public class ListeProjets extends Form {
         });
         ajouterProjet.addActionListener((e) -> {
 
-            new AjoutProjetForm(res).show();
+            new AjoutProjetForm(res, current).show();
 
         });
 
@@ -151,7 +153,7 @@ public class ListeProjets extends Form {
 
             lmodifier.addPointerPressedListener(l -> {
 
-                new UpdateProjet(p, res).show();
+                new UpdateProjet(p, res,current).show();
 
             });
             
@@ -163,7 +165,7 @@ public class ListeProjets extends Form {
             FontImage sFontImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprimerStyle);
             lsupprimer.setIcon(sFontImage);
             lsupprimer.setTextPosition(LEFT);
-            Button Cand = new Button("Voir candidatures");
+           //   Button Cand = new Button("Voir candidatures");
            
             
             
@@ -189,7 +191,7 @@ public class ListeProjets extends Form {
             actionsContainer.add(ldetail);
             actionsContainer.add(lmodifier);
             actionsContainer.add(lsupprimer);
-            actionsContainer.add(Cand);
+          //    actionsContainer.add(Cand);
      
             actionsContainer.getAllStyles().setMarginBottom(10);
 
