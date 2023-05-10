@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.gui.offre;
-
+package com.mycompany.gui.projets;
 import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
@@ -35,22 +34,21 @@ import com.codename1.ui.plaf.Border;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.util.UITimer;
-import com.mycompany.entities.Offre;
-import com.mycompany.services.OffreService;
+//import com.mycompany.entities.ProjetFreelance;
+//import com.mycompany.services.ServiceProjetFreelance;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-
 /**
  *
- * @author Aziz Ben Guirat
+ * @author Users
  */
-public class Recruteur_MesOffresForm extends Form {
-
-    public Recruteur_MesOffresForm(Resources res) {
-        super("Mes Offres", BoxLayout.y());
+public class ListeCommentaires extends Form {
+       public ListeCommentaires(Resources res) {
+       
+       /*    setTitle("Commentaire !");
+        setLayout(BoxLayout.y());
 
         // Create button group menu at the top
         ButtonGroup barGroup = new ButtonGroup();
@@ -67,14 +65,14 @@ public class Recruteur_MesOffresForm extends Form {
             InfiniteProgress ip = new InfiniteProgress();
             final Dialog ipDlg = ip.showInifiniteBlocking();
 
-            new Recruteur_MesOffresForm(res).show();
+            new ListeCommentaires(res).show();
            
             refreshTheme();
             ipDlg.dispose();
         });
         ajouterOffre.addActionListener((e) -> {
 
-            new AjouterOffre(res).show();
+            new AjoutProjetForm(res).show();
 
         });
 
@@ -98,8 +96,8 @@ public class Recruteur_MesOffresForm extends Form {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
 
-        // Display list of Offre objects
-        ArrayList<Offre> offres = OffreService.getInstance().affichageMesOffres(69);
+        // Display list of Offre objects*/
+     /*   ArrayList<Offre> offres = OffreService.getInstance().affichageMesOffres(69);
         for (Offre offre : offres) {
             Container offreContainer = new Container(new BorderLayout());
 
@@ -133,20 +131,6 @@ public class Recruteur_MesOffresForm extends Form {
             lModifier.setIcon(mFontImage);
             lModifier.setTextPosition(LEFT);
 
-            
-            
-            lModifier.addPointerPressedListener(l -> {
-            
-                //n3ayto l suuprimer men service Reclamation
-                System.out.println(offre.getIdOffre());
-                
-                try {
-                    new UpdateOffre(offre,res).show();
-                } catch (ParseException ex) {
-                }
-                
-           
-        });
             Label supp = new Label(" ");
             supp.setUIID("NewsTopLine");
             Style suppStyle = new Style(supp.getUnselectedStyle());
@@ -199,6 +183,11 @@ public class Recruteur_MesOffresForm extends Form {
 
         l.getUnselectedStyle().setMargin(LEFT, btn.getX() + btn.getWidth() / 2 - l.getWidth() / 2);
         l.getParent().repaint();
-    }
-
+    }*/}
+              
 }
+
+
+ 
+     
+

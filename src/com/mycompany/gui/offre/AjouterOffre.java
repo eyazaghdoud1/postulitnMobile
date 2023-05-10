@@ -39,7 +39,7 @@ public class AjouterOffre extends Form {
     private TextField entrepriseTextField = new TextField();
     private TextField specialiteTextField = new TextField();
     private TextField lieuTextField = new TextField();
-    private TextArea descriptionTextArea = new TextArea();
+    private TextField descriptionTextArea = new TextField();
     private Picker dateExpirationPicker = new Picker();
     private Button ajouterButton = new Button("Ajouter");
     private Resources theme;

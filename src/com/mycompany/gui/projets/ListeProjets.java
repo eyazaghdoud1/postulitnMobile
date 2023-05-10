@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.gui.offre;
+package com.mycompany.gui.projets;
 
+/**
+ *
+ * @author Users
+ */
 import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
@@ -35,46 +39,40 @@ import com.codename1.ui.plaf.Border;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.util.UITimer;
-import com.mycompany.entities.Offre;
-import com.mycompany.services.OffreService;
+import com.company.entities.ProjetFreelance;
+import com.mycompany.services.ServiceProjets;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+public class ListeProjets extends Form {
 
-/**
- *
- * @author Aziz Ben Guirat
- */
-public class Recruteur_MesOffresForm extends Form {
-
-    public Recruteur_MesOffresForm(Resources res) {
-        super("Mes Offres", BoxLayout.y());
+    public ListeProjets(Resources res) {
+        super("Mes Projets", BoxLayout.y());
 
         // Create button group menu at the top
         ButtonGroup barGroup = new ButtonGroup();
 
-        
-        RadioButton mesListes = RadioButton.createToggle("Mes Offres", barGroup);
+        RadioButton mesListes = RadioButton.createToggle("Mes Projet", barGroup);
         mesListes.setUIID("SelectBar");
-        RadioButton ajouterOffre = RadioButton.createToggle("Ajouter Offre", barGroup);
+        RadioButton ajouterOffre = RadioButton.createToggle("Ajouter Projet", barGroup);
         ajouterOffre.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
-        
         mesListes.addActionListener((e) -> {
             InfiniteProgress ip = new InfiniteProgress();
             final Dialog ipDlg = ip.showInifiniteBlocking();
 
-            new Recruteur_MesOffresForm(res).show();
-           
+            new ListeProjets(res).show();
+
             refreshTheme();
             ipDlg.dispose();
         });
         ajouterOffre.addActionListener((e) -> {
 
-            new AjouterOffre(res).show();
+            new AjoutProjetForm(res).show();
 
         });
 
@@ -90,7 +88,6 @@ public class Recruteur_MesOffresForm extends Form {
             updateArrowPosition(mesListes, arrow);
         });
 
-        
         bindButtonSelection(ajouterOffre, arrow);
         bindButtonSelection(mesListes, arrow);
         // special case for rotation
@@ -99,81 +96,55 @@ public class Recruteur_MesOffresForm extends Form {
         });
 
         // Display list of Offre objects
-        ArrayList<Offre> offres = OffreService.getInstance().affichageMesOffres(69);
-        for (Offre offre : offres) {
+        ArrayList<ProjetFreelance> projets = ServiceProjets.getInstance().getAllProjets(68);
+        for (ProjetFreelance p : projets) {
             Container offreContainer = new Container(new BorderLayout());
 
             Container labelsContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-            Label posteLabel = new Label(offre.getPoste());
-            Label entrepriseLabel = new Label(offre.getEntreprise());
-            String dateString = offre.getDateExpiration().toString();
+            Label nomLabel = new Label(p.getNom());
+            Label themeLabel = new Label(p.getTheme());
+            String dateStringdebut = p.getDateDebut().toString();
+            String dateStringfin = p.getDateFin().toString();
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
             SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy");
-            Date date = null;
+            Date datedebut = null;
+            Date datefin = null;
             try {
-                date = inputFormat.parse(dateString);
+                datedebut = inputFormat.parse(dateStringdebut);
+                datefin = inputFormat.parse(dateStringfin);
             } catch (ParseException ex) {
             }
-            String formattedDate = outputFormat.format(date);
-            Label dateExpirationLabel = new Label(formattedDate);
-            Label lieuLabel = new Label(offre.getLieu());
+            String formattedDatefin = outputFormat.format(datedebut);
+            String formattedDatedebut = outputFormat.format(datefin);
+            Label datefinLabel = new Label(formattedDatefin);
+            Label datedebutLabel = new Label(formattedDatedebut);
+            Label secteurLabel = new Label(p.getS().getDescription());
 
-            labelsContainer.add(posteLabel);
-            labelsContainer.add(entrepriseLabel);
-            labelsContainer.add(dateExpirationLabel);
-            labelsContainer.add(lieuLabel);
+            labelsContainer.add(nomLabel);
+            labelsContainer.add(themeLabel);
+            labelsContainer.add(formattedDatefin);
+            labelsContainer.add(formattedDatedebut);
+            labelsContainer.add(secteurLabel);
 
             offreContainer.add(BorderLayout.CENTER, labelsContainer);
 
-            Label lModifier = new Label(" ");
-            lModifier.setUIID("NewsTopLine");
-            Style modifierStyle = new Style(lModifier.getUnselectedStyle());
+            Button ldetail = new Button(" ");
+            ldetail.setUIID("NewsTopLine");
+            Style modifierStyle = new Style(ldetail.getUnselectedStyle());
             modifierStyle.setFgColor(0xf7ad02);
             FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, modifierStyle);
-            lModifier.setIcon(mFontImage);
-            lModifier.setTextPosition(LEFT);
+            ldetail.setIcon(mFontImage);
+            ldetail.setTextPosition(LEFT);
 
+            ldetail.addPointerPressedListener(l -> {
+
+                new DetailsProjets(p, res).show();
+
+            });
             
-            
-            lModifier.addPointerPressedListener(l -> {
-            
-                //n3ayto l suuprimer men service Reclamation
-                System.out.println(offre.getIdOffre());
-                
-                try {
-                    new UpdateOffre(offre,res).show();
-                } catch (ParseException ex) {
-                }
-                
-           
-        });
-            Label supp = new Label(" ");
-            supp.setUIID("NewsTopLine");
-            Style suppStyle = new Style(supp.getUnselectedStyle());
-            suppStyle.setFgColor(0xf7ad02);
-            FontImage sFontImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, suppStyle);
-            supp.setIcon(sFontImage);
-            supp.setTextPosition(LEFT);
-            supp.addPointerPressedListener(l -> {
-            
-            Dialog dig = new Dialog("Suppression");
-            
-            if(dig.show("Suppression","Vous voulez supprimer cette offre ?","Annuler","Oui")) {
-                dig.dispose();
-            }
-            else {
-                dig.dispose();
-                }
-                //n3ayto l suuprimer men service Reclamation
-                System.out.println(offre.getIdOffre());
-                OffreService.getInstance().deleteOffre(offre.getIdOffre());
-                    new Recruteur_MesOffresForm(res).show();
-                
-           
-        });
             Container actionsContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
-            actionsContainer.add(lModifier);
-            actionsContainer.add(supp);
+            actionsContainer.add(ldetail);
+            
             actionsContainer.getAllStyles().setMarginBottom(10);
 
             offreContainer.add(BorderLayout.SOUTH, actionsContainer);
@@ -181,7 +152,6 @@ public class Recruteur_MesOffresForm extends Form {
 
             add(offreContainer);
 
-            
         }
 
     }

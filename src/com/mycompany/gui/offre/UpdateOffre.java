@@ -41,7 +41,7 @@ public class UpdateOffre extends Form {
     private TextField entrepriseTextField = new TextField();
     private TextField specialiteTextField = new TextField();
     private TextField lieuTextField = new TextField();
-    private TextArea descriptionTextArea = new TextArea();
+    private TextField descriptionTextArea = new TextField();
     private Picker dateExpirationPicker = new Picker();
     private Button updateButton = new Button("Update");
     private Resources theme;

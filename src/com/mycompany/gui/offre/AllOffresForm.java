@@ -83,10 +83,22 @@ public class AllOffresForm extends Form {
 
             offreContainer.add(BorderLayout.CENTER, labelsContainer);
 
+            Button supp = new Button("Postuler ");
+            supp.addActionListener((evt) -> {
+                AjouterOffre f = new AjouterOffre(res);
+                f.show();
+            });
+//            Label supp = new Label();
+//            supp.setUIID("NewsTopLine");
             
-
-            Label supp = new Label("Postuler ");
-            supp.setUIID("NewsTopLine");
+            
+            Button cand = new Button("Voir candidatures");
+            cand.addActionListener((evt) -> {
+                AjouterOffre f = new AjouterOffre(res);
+                f.show();
+            });
+            //supp.setUIID("NewsTopLine");
+            
             Style suppStyle = new Style(supp.getUnselectedStyle());
             suppStyle.setFgColor(0xf7ad02);
             FontImage sFontImage = FontImage.createMaterial(FontImage.MATERIAL_NOTE_ADD, suppStyle);
@@ -96,6 +108,7 @@ public class AllOffresForm extends Form {
             Container actionsContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
             
             actionsContainer.add(supp);
+            actionsContainer.add(cand);
             actionsContainer.getAllStyles().setMarginBottom(10);
 
             offreContainer.add(BorderLayout.SOUTH, actionsContainer);
