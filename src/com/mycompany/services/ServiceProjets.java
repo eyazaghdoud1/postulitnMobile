@@ -172,15 +172,18 @@ public class ServiceProjets {
         return pf;
     }
 
-    //delete 
-    public boolean deleteProjetFreelance(int id) {
-        String url = Statics.BASE_URL + "/deleteCommentairesjson?id=" + id;
+   public boolean deleteProjet(int id) {
+        
+        String url = Statics.BASE_URL + "/api/deleteProjet/"+id;
+        
         req.setUrl(url);
+        req.setPost(false);
+        
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-
-                req.removeResponseCodeListener(this);
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
@@ -188,20 +191,30 @@ public class ServiceProjets {
     }
 
     //Update 
-    public boolean modifierProjetFreelance(Commentaires commentaire) {
-        String url = Statics.BASE_URL + "/updateCommentairesjson?idProjet=" + commentaire.getIdProjet() + "idCommentaire=" + commentaire.getIdCommentaire() + "contenu=" + commentaire.getContenu();
+     public boolean modifierProjets(ProjetFreelance pf, String dated, String datef, int id) {
+
+        String url = "http://localhost:8000/updateProjetsjson/"+id
+                + "?theme=" + pf.getTheme()
+                + "&description=" + pf.getDescription()
+                + "&duree=" + pf.getDuree()
+                + "&datedebut=" + dated
+                + "&datedebut=" + datef
+                + "&nom=" + pf.getNom()
+                + "&secteur=" + pf.getS().getDescription();
+        ;
+
         req.setUrl(url);
+        req.setPost(false);
+
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-                resultOK = req.getResponseCode() == 200;  // Code response Http 200 ok
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
                 req.removeResponseListener(this);
             }
         });
-
-        NetworkManager.getInstance().addToQueueAndWait(req);//execution des requetes
+        NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
-
     }
 
 }

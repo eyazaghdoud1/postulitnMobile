@@ -22,6 +22,7 @@ import com.codename1.io.NetworkEvent;
 import com.mycompany.gui.offre.AllOffresForm;
 import com.mycompany.gui.offre.Recruteur_AllOffresForm;
 import com.mycompany.gui.offre.Recruteur_MesOffresForm;
+import com.mycompany.gui.projets.ListeProjetCandidat;
 import com.mycompany.gui.projets.ListeProjets;
 
 /**
@@ -62,7 +63,7 @@ public class postuli {
             return;
         }
         
-        new ListeProjets(theme).show();
+        new ListeProjetCandidat(theme).show();
         
     }
 

@@ -154,7 +154,7 @@ public class AjoutProjetForm extends Form {
             pf.setDateDebut(dateDebut.getText());
             pf.setDateFin(dateFin.getText());
             pf.setDuree(Integer.parseInt(duree.getText()));
-            
+    
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDatedebut = dateFormat.format(dateDebut.getDate());
             String formattedDatefin = dateFormat.format(dateFin.getDate());

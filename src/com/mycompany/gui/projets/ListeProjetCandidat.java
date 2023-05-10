@@ -5,31 +5,16 @@
  */
 package com.mycompany.gui.projets;
 
-/**
- *
- * @author Users
- */
 import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
-import static com.codename1.ui.CN.execute;
-import com.codename1.ui.Component;
-import static com.codename1.ui.Component.BOTTOM;
-import static com.codename1.ui.Component.CENTER;
 import static com.codename1.ui.Component.LEFT;
-import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
-import com.codename1.ui.Graphics;
-import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
-import com.codename1.ui.Tabs;
-import com.codename1.ui.Toolbar;
-import com.codename1.ui.animations.CommonTransitions;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -38,18 +23,19 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Border;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-import com.codename1.ui.util.UITimer;
 import com.company.entities.ProjetFreelance;
 import com.mycompany.services.ServiceProjets;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ListeProjets extends Form {
-
-    public ListeProjets(Resources res) {
+/**
+ *
+ * @author Aziz Ben Guirat
+ */
+public class ListeProjetCandidat extends Form {
+        public ListeProjetCandidat(Resources res) {
         super("Mes Projets", BoxLayout.y());
 
         // Create button group menu at the top
@@ -156,43 +142,17 @@ public class ListeProjets extends Form {
             });
             
             
-            Button lsupprimer = new Button(" ");
-            lsupprimer.setUIID("NewsTopLine");
-            Style supprimerStyle = new Style(ldetail.getUnselectedStyle());
-            supprimerStyle.setFgColor(0xf7ad02);
-            FontImage sFontImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprimerStyle);
-            lsupprimer.setIcon(sFontImage);
-            lsupprimer.setTextPosition(LEFT);
-            Button Cand = new Button("Voir candidatures");
+          
+            Button Cand = new Button("Postuler");
            
             
             
-            lsupprimer.addPointerPressedListener(l -> {
-            
-            Dialog dig = new Dialog("Suppression");
-            
-            if(dig.show("Suppression","Vous voulez supprimer ce Projet ?","Annuler","Oui")) {
-                dig.dispose();
-            }
-            else {
-                dig.dispose();
-                }
-            
-                
-                ServiceProjets.getInstance().deleteProjet(p.getIdProjet());
-                    new ListeProjets(res).show();
-                
-           
-        });
+         
             
             Container actionsContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
-            actionsContainer.add(ldetail);
-            actionsContainer.add(lmodifier);
-            actionsContainer.add(lsupprimer);
+      
             actionsContainer.add(Cand);
-     
             actionsContainer.getAllStyles().setMarginBottom(10);
-
             projetContainer.add(BorderLayout.SOUTH, actionsContainer);
             projetContainer.getAllStyles().setBorder(Border.createLineBorder(1, 0x555555));
 
